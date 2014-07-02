@@ -303,6 +303,7 @@ function testScan() {
 			// Run the test suite once per device.
 			if (!gFoundDevices[device.address])		{
 				// Mark device as found.
+				testLog(device.address);
 				gFoundDevices[device.address] = true;
 
 				// Start first test.
