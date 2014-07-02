@@ -1,6 +1,6 @@
 
 <!-- saved from url=(0061)https://dl.dropboxusercontent.com/u/32777026/post2google2.htm -->
-<html class="ui-mobile"><head><meta http-equiv="Content-Type" content="text/html;"><!--<base href="https://dl.dropboxusercontent.com/u/32777026/post2google2.htm">--><base href=".">
+<html class="ui-mobile"><head><meta http-equiv="Content-Type" content="text/html;">
     
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css">
@@ -24,7 +24,7 @@
     <script src="./BLE_files/jquery.mobile.min.js"></script>
 	<title>BLE Search System Demo</title></head><body class="ui-mobile-viewport ui-overlay-a">
 
-	<div data-role="page" data-url="/u/32777026/post2google2.htm" tabindex="0" class="ui-page ui-page-theme-a ui-page-active" style="min-height: 681px;">
+	<div data-role="page" data-url="./post2google2.htm" tabindex="0" class="ui-page ui-page-theme-a ui-page-active">
 
 	<div data-role="header" role="banner" class="ui-header ui-bar-inherit">
 		<h1 class="ui-title" role="heading" aria-level="1">BLE Search System Demo</h1>
@@ -34,9 +34,9 @@
 
 		<form id="fm" name="fm" action="" method="post">
 		<p>
-		Action (if you like):<br>
+		Action:<br>
 		<div class="ui-select">
-		  <div id="action-button" class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow"><span>Action</span><select id="action" name="action">
+		  <select id="action" name="action">
 		  <option value="--">Please select</option>
 		  <option value="newUser">New User</option>
 		  <option value="login" selected="">Login</option>
@@ -54,11 +54,11 @@
 		  <option value="getBLE">Get BLE</option>
 		  <option value="getOpenBLE">Get Open BLE</option>
 		  <option value="findBLE">Find a BLE</option>
-		</select></div></div><br>
-		<div class="ui-select"><div id="select-18-button" class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow"><select name="lang">
+		</select></div><br>
+		<div class="ui-select"><select name="lang">
 		  <option value="tw">Traditional Chinese</option> 
 		  <option value="en">English</option>   
-		</select></div></div><br>
+		</select></div><br>
 		Please specify relative fields:<br>
 		</p>
 		<div class="toggle" id="vendor" style="display: none;">  Vendor(Please contact me to get key):      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="vendori" type="text" name="vendor"></div><br></div>
@@ -75,7 +75,6 @@
 		<div class="toggle" id="address" style="display: none;"> Address:     <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="addressi" type="text" name="address"></div><br></div>
 		<div class="toggle" id="pin" style="display: none;">     PIN code:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pini" type="text" name="pin"></div><br></div>
 		<div class="toggle" id="loc" style="display: none;">     Location:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="loci" type="text" name="location"></div><br></div>
-		<p></p>
 		</form>
 		<div class="toggle" id="sub" style="display: block;"><button id="submit" value="NONE" class=" ui-btn ui-shadow ui-corner-all">Send</button></div>
 		<div class="toggle" id="msg" style="display: none;"></div>
@@ -300,10 +299,11 @@ function testScan() {
 
 	evothings.ble.startScan(
 		function(device)	{
+			testLog(device.address);
 			// Run the test suite once per device.
 			if (!gFoundDevices[device.address])		{
 				// Mark device as found.
-				testLog(device.address);
+				
 				gFoundDevices[device.address] = true;
 
 				// Start first test.
