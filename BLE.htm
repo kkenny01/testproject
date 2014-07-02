@@ -1,0 +1,186 @@
+
+<!-- saved from url=(0061)https://dl.dropboxusercontent.com/u/32777026/post2google2.htm -->
+<html class="ui-mobile"><head><meta http-equiv="Content-Type" content="text/html; charset=Big5"><!--<base href="https://dl.dropboxusercontent.com/u/32777026/post2google2.htm">--><base href=".">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css">
+    <link rel="stylesheet" href="https://dl.dropboxusercontent.com/u/32777026/table.css">
+    <style type="text/css">
+    <!--
+        html { background-color: #333; }
+        @media only screen and (min-width: 600px){
+            .ui-page {
+                width: 600px !important;
+                margin: 0 auto !important;
+                position: relative !important;
+                border-right: 5px #666 outset !important;
+                border-left: 5px #666 outset !important;
+            }
+        }
+    -->
+    </style>
+	<script src="./BLE_files/jquery.min.js"></script>
+    <script src="./BLE_files/jquery.mobile.min.js"></script>
+	<title>BLE Search System Demo</title></head><body class="ui-mobile-viewport ui-overlay-a">
+
+	<div data-role="page" data-url="/u/32777026/post2google2.htm" tabindex="0" class="ui-page ui-page-theme-a ui-page-active" style="min-height: 681px;">
+
+	<div data-role="header" role="banner" class="ui-header ui-bar-inherit">
+		<h1 class="ui-title" role="heading" aria-level="1">BLE Search System Demo</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" class="ui-content" role="main">	
+
+		<form id="fm" name="fm" action="" method="post">
+		<p>
+		Action (if you like):<br>
+		<div class="ui-select"><div id="action-button" class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow"><span>Login</span><select id="action" name="action">
+		  <option value="--">Please select</option>
+		  <option value="newUser">New User</option>
+		  <option value="login" selected="">Login</option>
+		  <option value="logout">Logout</option>
+		  <option value="alive">Alive</option>
+		  <option value="setProfile">Set Profile</option>
+		  <option value="getProfile">Get Profile</option>
+		  <option value="changePassword">New Password</option>
+		  <option value="forgetPassword">Forget Password</option>
+		  <option value="setElder">Set Elder</option>
+		  <option value="getElder">Get Elder</option>
+		  <option value="openSearch">Open for Search</option>
+		  <option value="closeSearch">Close for Search</option>
+		  <option value="setBLE">Set BLE</option>
+		  <option value="getBLE">Get BLE</option>
+		  <option value="getOpenBLE">Get Open BLE</option>
+		  <option value="findBLE">Find a BLE</option>
+		</select></div></div><br>
+		<div class="ui-select"><div id="select-18-button" class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow"><span>繁體中文</span><select name="lang">
+		  <option value="tw">繁體中文</option> 
+		  <option value="en">English</option>   
+		</select></div></div><br>
+		Please specify relative fields:<br>
+		</p>
+		<div class="toggle" id="vendor" style="display: none;">  Vendor(Please contact me to get key):      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="vendori" type="text" name="vendor"></div><br></div>
+		<div class="toggle" id="user" style="display: block;">    User:        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="useri" type="text" name="user"></div><br></div>
+		<div class="toggle" id="pwd" style="display: block;">     Password:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pwdi" type="password" name="pwd"></div><br></div>
+		<div class="toggle" id="oldPwd" style="display: none;">  Old Password:<div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="oldPwdi" type="password" name="oldPwd"></div><br></div>
+		<div class="toggle" id="key" style="display: none;">     Key:         <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="keyi" type="text" name="key"></div><br></div>
+		<div class="toggle" id="name" style="display: none;">    Name:        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="namei" type="text" name="name"></div><br></div>
+		<div class="toggle" id="phone" style="display: none;">   Phone#:      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="phonei" type="text" name="phone"></div><br></div>
+		<div class="toggle" id="comail" style="display: none;">  Second mail: <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="comaili" type="text" name="comail"></div><br></div>
+		<div class="toggle" id="gender" style="display: none;">  Gender:      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="genderi" type="text" name="gender"></div><br></div>
+		<div class="toggle" id="des" style="display: none;">     Descript:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="desi" type="text" name="des"></div><br></div>
+		<div class="toggle" id="album" style="display: none;">   Album:       <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="albumi" type="text" name="album"></div><br></div>
+		<div class="toggle" id="address" style="display: none;"> Address:     <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="addressi" type="text" name="address"></div><br></div>
+		<div class="toggle" id="pin" style="display: none;">     PIN code:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pini" type="text" name="pin"></div><br></div>
+		<div class="toggle" id="loc" style="display: none;">     Location:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="loci" type="text" name="location"></div><br></div>
+		<p></p>
+		</form>
+		<div class="toggle" id="sub" style="display: block;"><button id="submit" value="NONE" class=" ui-btn ui-shadow ui-corner-all">Send</button></div>
+		<div class="toggle" id="msg" style="display: none;"></div>
+			
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+<script>
+$(function () {
+  var res={"login":{"op":["user","pwd"],"sub":function(r) {
+			 if (r.key) {$("#keyi").val(r.key); $("#msg").text("OK").show();} else $("#msg").text(r.Error).show();} },
+		   "logout":{"op":[],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
+		   "newUser":{"op":["vendor","user"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
+		   "alive":{"op":[],"sub":function(r) {$("#msg").text(r.User||r.Error).show();}},
+		   "setProfile":{"op":["name","phone","comail"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
+		   "getProfile":{"op":[],"sub":function(r) {
+		     if (r.Name!=undefined) {
+			   $("#namei").val(r.Name);$("#name").show(); 
+			   $("#phonei").val(r.Phone);$("#phone").show();
+			   $("#comaili").val(r.Comail);$("#comail").show();
+			   } 
+			 else $("#msg").text(r.Error).show(); }},
+		   "changePassword":{"op":["pwd","oldPwd"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},		   
+		   "forgetPassword":{"op":["user"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
+		   "setElder":{"op":["name","gender","des","album"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
+		   "getElder":{"op":["name"],"sub":function(r) {
+		     if (r.Elder!=undefined) 
+			   if (r.Elder.length == 1) {
+			     $("#genderi").val(r.Elder[0].Gender);$("#gender").show(); 
+			     $("#desi").val(r.Elder[0].Describe);$("#des").show();
+			     $("#albumi").val(r.Elder[0].Album);$("#album").show();
+			     } 
+			   else $("#msg").html(jTable(r.Elder, "Elder")).show();
+			 else $("#msg").text(r.Error).show(); }},
+		   "openSearch":{"op":["name","address"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
+		   "closeSearch":{"op":["name"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
+		   "setBLE":{"op":["name","address","pin"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
+		   "getBLE":{"op":["address"],"sub":function(r) {
+		     if (r.BLE!=undefined) 
+			   if (r.BLE.length == 1) {		     
+			     $("#namei").val(r.BLE[0].Name);$("#name").show(); 
+			     $("#pini").val(r.BLE[0].PIN);$("#pin").show();
+			     }
+			   else $("#msg").html(jTable(r.BLE, "BLE", true)).show();
+			 else $("#msg").text(r.Error).show(); }},
+		   "getOpenBLE":{"op":[],"sub":function(r) {
+		     if (r.BLE != undefined) $("#msg").html(jTable(r.BLE, "BLE")).show();
+		     else $("#msg").text(r.Error).show();}},
+		   "findBLE":{"op":["address", "loc"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}}
+		  };
+		  
+  $("#submit").click(function(){ 
+ 	$("div.toggle").hide();
+	var v = $( "#action option:selected" ).val() ;
+    $.ajax({
+         type: 'POST',
+         url: "https://script.google.com/macros/s/AKfycbxpWcV6dClI-gY_RExPYO5q_y74QMNAW9CkAl9wjx89asP7cget/exec",
+         data: $('#fm').serialize(), 
+         success: function(response) {
+            alert(JSON.stringify(response));  //*******************Remove this line when ready
+			if (res[v] && res[v].sub) {
+			  res[v].sub(response);
+			}
+         },
+        error: function(response, status, error) {
+            alert(error+":"+JSON.stringify(status)+":"+JSON.stringify(response));
+        }
+     });	
+    $("#action").val("--");	 
+  });
+  $("#action").change(function() {
+    var v = $( "#action option:selected" ).val() ;
+	$("div.toggle").hide();
+	if (res[v]) {
+	  for (var x in res[v].op) {
+	    $("div#"+res[v].op[x]).show();
+	  }
+	  $("div#sub").show();
+	}
+  });
+  $("#action").change();  
+});
+
+// Convert a json object array *obj* into jqm table format with table name *tname and option *col_head* is true for first column is the head also
+function jTable(obj, tname, col_head) {
+	if (!$.isArray(obj) || obj.length < 1) return "";
+	var str1 = '<table data-role="table" id="'+(tname || 'JQMTable')+'" data-mode="reflow"> <thead> <tr>';
+	var str2 = '</tr> </thead> <tbody>';
+	var str3 = '</tbody> </table>';
+	var strx = "";
+	var header = [];
+	for (var r in obj[0]) {
+	  str1 += " <th>"+r+"</th>";
+	  header.push(r);
+	}
+	for (var i = 0; i < obj.length; i++) {
+	    strx += '<tr id="'+(tname || 'JQMTable')+'_'+i+'"> ';
+		var j = 0;
+		if (col_head) {
+		strx += " <th>"+obj[i][header[0]]+"</th>";
+		j = 1;
+		}
+	    for ( ; j < header.length; j++)
+		    strx += " <td>"+obj[i][header[j]]+"</td>";
+	}	
+	return str1+str2+strx+str3;   
+}
+</script>
+<div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div></body></html>
