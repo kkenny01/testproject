@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "tw.edu.ctust.linyawjen"
+        versionCode = "1" 
+        version     = "1.0.0" >
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>PhoneGap BLE Example</name>
+
+    <description>
+        An example for phonegap build docs. 
+    </description>
+
+    <author href="https://sites.google.com/site/linyawjen" email="linyawjen@gmail.com">
+        Yaw-Jen Lin
+    </author>
+    <gap:platform name="ios" />
+    <gap:platform name="android" />
+    <gap:platform name="winphone" />
+    <gap:plugin name="com.evothings.ble" version="1.0.0" />
+</widget>
