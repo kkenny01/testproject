@@ -1,6 +1,6 @@
 
 <!-- saved from url=(0061)https://dl.dropboxusercontent.com/u/32777026/post2google2.htm -->
-<html class="ui-mobile"><head><meta http-equiv="Content-Type" content="text/html; charset=Big5"><!--<base href="https://dl.dropboxusercontent.com/u/32777026/post2google2.htm">--><base href=".">
+<html class="ui-mobile"><head><meta http-equiv="Content-Type" content="text/html;"><!--<base href="https://dl.dropboxusercontent.com/u/32777026/post2google2.htm">--><base href=".">
     
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css">
@@ -35,7 +35,8 @@
 		<form id="fm" name="fm" action="" method="post">
 		<p>
 		Action (if you like):<br>
-		<div class="ui-select"><div id="action-button" class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow"><span>Login</span><select id="action" name="action">
+		<div class="ui-select">
+		  <div id="action-button" class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow"><span>Action</span><select id="action" name="action">
 		  <option value="--">Please select</option>
 		  <option value="newUser">New User</option>
 		  <option value="login" selected="">Login</option>
@@ -54,8 +55,8 @@
 		  <option value="getOpenBLE">Get Open BLE</option>
 		  <option value="findBLE">Find a BLE</option>
 		</select></div></div><br>
-		<div class="ui-select"><div id="select-18-button" class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow"><span>嚙箱嚙賡中嚙踝蕭</span><select name="lang">
-		  <option value="tw">嚙箱嚙賡中嚙踝蕭</option> 
+		<div class="ui-select"><div id="select-18-button" class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow"><select name="lang">
+		  <option value="tw">Traditional Chinese</option> 
 		  <option value="en">English</option>   
 		</select></div></div><br>
 		Please specify relative fields:<br>
@@ -286,7 +287,8 @@ function start_scan() {
 	testLog('Starting test');
 
 	// Scan and start first test.
-	testScan();
+	if (evothings == undefined) testLog("Plugin not found")
+	else testScan();
 }
 
 function stopScan() {
