@@ -299,11 +299,11 @@ function testScan() {
 
 	evothings.ble.startScan(
 		function(device)	{
-			testLog(device.address);
+
 			// Run the test suite once per device.
 			if (!gFoundDevices[device.address])		{
 				// Mark device as found.
-				
+			testLog("found.."+JSON.stringify(device));				
 				gFoundDevices[device.address] = true;
 
 				// Start first test.
