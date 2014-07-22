@@ -22,6 +22,7 @@
     <script src="cordova.js"></script>
 	<script src="./BLE_files/jquery.min.js"></script>
     <script src="./BLE_files/jquery.mobile.min.js"></script>
+    <script src="./BLE_files/jstorage.min.js"></script>
 	<title>BLE Search System Demo</title></head><body class="ui-mobile-viewport ui-overlay-a">
 
 	<div data-role="page" data-url="./post2google2.htm" tabindex="0" class="ui-page ui-page-theme-a ui-page-active">
@@ -29,8 +30,28 @@
 	<div data-role="header" role="banner" class="ui-header ui-bar-inherit">
 		<h1 class="ui-title" role="heading" aria-level="1">BLE Search System Demo</h1>
 	</div><!-- /header -->
+	
+<div data-role="tabs" id="tabs">
+  <div data-role="navbar">
+    <ul>
+      <li><a href="#one" data-ajax="false">Local</a></li>
+      <li><a href="#two" data-ajax="false">Site</a></li>
+    </ul>
+  </div>
+  <div id="one" class="ui-body-d ui-content" role="main">
+  		In Phone<br>
+  		<div  id="phone" style="display: none;"></div> 
+  		Call for help<br>
+  		<div  id="calling" style="display: none;"></div>
+  		Found
+  		<div  id="found" style="display: none;"></div>
+		<div  id="xmsg" style="display: none;"></div>
+		<button id="scan">SCAN</button>	
+  </div>
+  <div id="two">
 
-	<div data-role="content" class="ui-content" role="main">	
+
+	<div data-role="content" class="ui-content" >	
 
 		<form id="fm" name="fm" action="" method="post">
 		<p>
@@ -78,13 +99,28 @@
 		</form>
 		<div class="toggle" id="sub" style="display: block;"><button id="submit" value="NONE" class=" ui-btn ui-shadow ui-corner-all">Send</button></div>
 		<div class="toggle" id="msg" style="display: none;"></div>
-		<button id="scan">SCAN</button>	
+
 	</div><!-- /content -->
+  </div>
+</div>
 
 </div><!-- /page -->
 
 <script>
 $(function () {
+  var data = $.jstorage.get("init","not found")
+  if (data == "not found") {
+  	$.jstorage.set("init","yet")
+  	//Test data
+  	var test = [{name:"foo1", address:"00:00:00"},{name:"foo2", address:"11:11:11"}];
+  	$.jstorage.set("inphone", JSON.stringify());
+  	$("#xmsg").text("First time");
+  }
+  else {
+  	data = $.jstorage.get("inphone", "not found");
+  	$("#xmsg").text(data);
+  }
+	
   var res={"login":{"op":["user","pwd"],"sub":function(r) {
 			 if (r.key) {$("#keyi").val(r.key); $("#msg").text("OK").show();} else $("#msg").text(r.Error).show();} },
 		   "logout":{"op":[],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
@@ -167,7 +203,7 @@ $(function () {
 // Convert a json object array *obj* into jqm table format with table name *tname and option *col_head* is true for first column is the head also
 function jTable(obj, tname, col_head) {
 	if (!$.isArray(obj) || obj.length < 1) return "";
-	var str1 = '<table data-role="table" id="'+(tname || 'JQMTable')+'" data-mode="reflow"> <thead> <tr>';
+	var str1 = '<table data-role="table" id="'+(tname || 'JQMTable')+'" data-mode="reflow" class="ui-responsive"> <thead> <tr>';
 	var str2 = '</tr> </thead> <tbody>';
 	var str3 = '</tbody> </table>';
 	var strx = "";
@@ -196,82 +232,10 @@ var gTestLogData = '';
 // Used to test a device only once per scan.
 var gFoundDevices = {};
 
-// Tree structure with all devices, services,
-// characteristics and descriptors.
-var gDeviceData = {};
-
-// Tracees async calls when building device tree.
-var gCallTracer = 0;
-
-// Number of failed tests.
-var gFailedTests = 0;
 
 function testLog(message) {
 	gTestLogData += message + '\n';
-	$("#msg").text(gTestLogData).show();
-}
-
-function closeAllDevices()
-{
-	for (var handle in gDeviceData){
-		
-		evothings.ble.close(handle);
-	}
-}
-
-function displayDeviceData()
-{
-	displayDeviceTree(gDeviceData, 1, '');
-}
-
-function displayDeviceTree(obj, level, indent)
-{
-	var label = 'Unknown: ';
-	(level == 1) && (label = 'Device: ');
-	(level == 2) && (label = 'Service: ');
-	(level == 3) && (label = 'Characteristic: ');
-	(level == 4) && (label = 'Descriptor: ');
-
-	// Display top-level properties (nicer if these are shown first).
-	for (var prop in obj)	{
-		if (obj.hasOwnProperty(prop))	{
-			var value = obj[prop]
-			if (typeof value != 'object') {
-				testLog(indent + prop + ': ' + value)
-			}
-		}
-	}
-
-	// Display object properties (children).
-	for (prop in obj)	{
-		if (obj.hasOwnProperty(prop))	{
-			value = obj[prop]
-			if (typeof value == 'object')
-			{
-				testLog(indent + label)
-				displayDeviceTree(value, level + 1, indent + '  ')
-			}
-		}
-	}
-}
-
-function incrementCallTracer()
-{
-	++gCallTracer;
-}
-
-function decrementCallTracer()
-{
-	--gCallTracer;
-	if (0 === gCallTracer)
-	{
-		displayDeviceData();
-		closeAllDevices();
-
-		gFailedTests && testLog('FAIL: Number of fails: ' + gFailedTests);
-		!gFailedTests && testLog('PASS: All tests passed');
-		testLog('DONE: Test finished');
-	}
+	$("#xmsg").text(gTestLogData).show();
 }
 
 function start_scan() {
@@ -279,9 +243,6 @@ function start_scan() {
 
 	gTestLogData = '';
 	gFoundDevices = {};
-	gDeviceData = {};
-	gCallTracer = 0;
-	gFailedTests = 0;
 
 	testLog('Starting test');
 
@@ -296,255 +257,17 @@ function stopScan() {
 
 function testScan() {
 	testLog('Scanning...');
-
 	evothings.ble.startScan(
 		function(device)	{
-
 			// Run the test suite once per device.
 			if (!gFoundDevices[device.address])		{
 				// Mark device as found.
-			testLog("found.."+JSON.stringify(device));				
+				testLog("found.."+device.name+".."+device.address);				
 				gFoundDevices[device.address] = true;
-
-				// Start first test.
-//				testConnectClose(device.address, 0);
 			}
 		},
 		function(errorCode)	{
-			testLog('FAIL: startScan error: ' + errorCode);
-		}
-	);
-}
-
-// Connect and close 10 times.
-function testConnectClose(address, counter) {
-	evothings.ble.connect(
-		address,
-		function(info)	{
-			testLog(JSON.stringify(info));
-			if (info.state == 2) {// Connected
-				testLog('LOG:  testConnectClose(' + counter + ') device: ' + address);
-
-				if (counter < 10)	{
-					evothings.ble.close(info.deviceHandle);
-				}
-				else	{
-					testLog('PASS: testConnectClose device: ' + address);
-
-					// This can be moved to a later test or to last test,
-					// depending on whether the test suite should pick up
-					// new devices.
-					stopScan();
-
-					// Run next test.
-					// Create entry for device.
-					gDeviceData[info.deviceHandle] = {};
-					gDeviceData[info.deviceHandle]['Address'] = address;
-					gDeviceData[info.deviceHandle]['ConnectCloseTest'] = 'PASS';
-					testRSSI(info.deviceHandle, gDeviceData[info.deviceHandle], 0);
-				}
-			}
-			else if (info.state === 0) 	{ // Disconnected
-				if (counter < 10)	{
-					// Connect again.
-					testConnectClose(address, counter + 1);
-
-					// If a timeout is needed, use this code:
-					// setTimeout(function() { testConnectClose(address, counter + 1); }, 1000);
-				}
-			}
-		},
-		function(errorCode)		{
-			testLog('FAIL: testConnectClose device: ' + address + ' error: ' + errorCode);
-			testLog('Try to start test again (this works on iOS)');
-		}
-	);
-}
-
-function testRSSI(deviceHandle, deviceData, counter) {
-	// Useful for skipping the RSSI test which takes time.
-	//testServices(deviceHandle, deviceData); return;
-
-	evothings.ble.rssi(
-		deviceHandle,
-		function(rssi)	{
-			testLog('LOG:  testRSSI(' + counter + ') deviceHandle: ' + deviceHandle +
-				' rssi: ' + rssi);
-
-			if (counter < 10)	{
-				// Read RSSI again. Delay must be used, BLE cannot
-				// handle rapid RSSI polling (at least on iOS).
-				setTimeout(function(){testRSSI(deviceHandle, deviceData, counter + 1);}, 1000);
-			}
-			else	{
-				testLog('PASS: testRSSI device: ' + deviceHandle);
-
-				deviceData['RSSITest'] = 'PASS';
-
-				// Run next test.
-				testServices(deviceHandle, deviceData);
-			}
-
-		},
-		function(errorCode)	{
-			testLog('[FAIL testRSSI] error: ' + errorCode);
-		});
-}
-
-function testServices(deviceHandle, deviceData) {
-	testLog('Device ' + deviceHandle + ': Reading all services,');
-	testLog('characteristics and desciptors, please wait...');
-
-	incrementCallTracer();
-
-	evothings.ble.services(
-		deviceHandle,
-		function(services)	{
-			for (var i = 0; i < services.length; ++i)	{
-				var service = services[i];
-
-				// Create entry for service.
-				deviceData[service.handle] = {};
-				deviceData[service.handle]['UUID'] = service.uuid;
-
-				// Test test.
-				testCharacteristics(deviceHandle, service.handle, deviceData[service.handle]);
-			}
-
-			decrementCallTracer();
-		},
-		function(errorCode)	{
-			testLog('FAIL: testServices device: ' + deviceHandle + ' error: ' + errorCode);
-			++gFailedTests;
-			decrementCallTracer();
-		});
-}
-
-function testCharacteristics(deviceHandle, serviceHandle, serviceData){
-	incrementCallTracer();
-
-	evothings.ble.characteristics(
-		deviceHandle,
-		serviceHandle,
-		function(characteristics)	{
-			//testLog('found characteristics: ' + characteristics.length);
-			for (var i = 0; i < characteristics.length; ++i)	{
-				var characteristic = characteristics[i];
-
-				// Create entry for characteristic.
-				serviceData[characteristic.handle] = {};
-				serviceData[characteristic.handle]['UUID'] = characteristic.uuid;
-
-				//testLog('characteristic uuid: ' + characteristic.uuid);
-
-				var readAllowed = characteristic.permissions & 1; // PERMISSION_READ
-				testReadCharacteristic(
-					deviceHandle,
-					characteristic.handle,
-					serviceData[characteristic.handle],
-					readAllowed);
-
-				// Next test.
-				testDescriptors(
-					deviceHandle,
-					characteristic.handle,
-					serviceData[characteristic.handle]);
-			}
-
-			decrementCallTracer();
-		},
-		function(errorCode)		{
-			testLog('FAIL: testCharacteristics: ' + errorCode);
-			serviceData['TestCharacteristics'] = 'FAIL: ' + errorCode;
-			++gFailedTests;
-			decrementCallTracer();
-		}
-	);
-}
-
-function testReadCharacteristic(deviceHandle, characteristicHandle, characteristicData, readAllowed) {
-	incrementCallTracer();
-
-	evothings.ble.readCharacteristic(
-		deviceHandle,
-		characteristicHandle,
-		function(data)	{
-			characteristicData['Data'] = escape(
-				String.fromCharCode.apply(
-					null,
-					new Uint8Array(data)));
-			decrementCallTracer();
-		},
-		function(errorCode)	{
-			if (readAllowed)	{
-				characteristicData['Data'] = errorCode;
-				++gFailedTests;
-			}
-			else	{
-				characteristicData['Data'] = 'EXPECTED: ' + errorCode;
-			}
-
-			decrementCallTracer();
-		}
-	);
-}
-
-function testDescriptors(deviceHandle, characteristicHandle, characteristicData){
-	incrementCallTracer();
-
-	evothings.ble.descriptors(
-		deviceHandle,
-		characteristicHandle,
-		function(descriptors)	{
-			for (var i = 0; i < descriptors.length; ++i)	{
-				var descriptor = descriptors[i];
-
-				// Create entry for descriptor.
-				characteristicData[descriptor.handle] = {};
-				characteristicData[descriptor.handle]['UUID'] = descriptor.uuid;
-
-				var readAllowed = descriptor.permissions & 1; // PERMISSION_READ
-				testReadDescriptor(
-					deviceHandle,
-					descriptor.handle,
-					characteristicData[descriptor.handle],
-					readAllowed);
-			}
-
-			decrementCallTracer();
-		},
-		function(errorCode)	{
-			testLog('FAIL: testDescriptors: ' + errorCode + ' (see details below)');
-			characteristicData['TestDescriptors'] = 'FAIL: ' + errorCode;
-			++gFailedTests;
-			decrementCallTracer();
-		}
-	);
-}
-
-function testReadDescriptor(deviceHandle, descriptorHandle, descriptorData, readAllowed){
-	incrementCallTracer();
-
-	evothings.ble.readDescriptor(
-		deviceHandle,
-		descriptorHandle,
-		function(data)		{
-			descriptorData['Data'] = escape(
-				String.fromCharCode.apply(
-					null,
-					new Uint8Array(data)));
-			decrementCallTracer();
-		},
-		function(errorCode)		{
-			if (readAllowed)			{
-				descriptorData['Data'] = errorCode;
-				++gFailedTests;
-			}
-			else			{
-				descriptorData['Data'] = 'EXPECTED: ' + errorCode;
-			}
-
-			decrementCallTracer();
+			alert('FAIL: startScan error: ' + errorCode);
 		}
 	);
 }
