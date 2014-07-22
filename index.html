@@ -108,19 +108,19 @@
 
 <script>
 $(function () {
-  var data = $.jstorage.get("init","not found")
+  var data = $.jstorage.get("init","not found");
   if (data == "not found") {
-  	$.jstorage.set("init","yet")
-  	//Test data
+  	$.jstorage.set("init","yet");
+  	//Test data  
   	var test = [{name:"foo1", address:"00:00:00"},{name:"foo2", address:"11:11:11"}];
-  	$.jstorage.set("inphone", JSON.stringify());
-  	$("#xmsg").text("First time");
+  	$.jstorage.set("inphone", JSON.stringify(test));
+  	testLog("First time");
   }
   else {
   	data = $.jstorage.get("inphone", "not found");
-  	$("#xmsg").text(data);
+    testLog(data);
   }
-	
+  testLog("init localStorage");
   var res={"login":{"op":["user","pwd"],"sub":function(r) {
 			 if (r.key) {$("#keyi").val(r.key); $("#msg").text("OK").show();} else $("#msg").text(r.Error).show();} },
 		   "logout":{"op":[],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
