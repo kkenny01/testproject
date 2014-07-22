@@ -43,8 +43,8 @@
   		<div  id="phone" style="display: none;"></div> 
   		Call for help<br>
   		<div  id="calling" style="display: none;"></div>
-  		Found
-  		<div  id="found" style="display: none;"></div>
+  		New
+  		<div  id="new" style="display: none;"></div>
 		<div  id="xmsg" style="display: none;"></div>
 		<button id="scan">SCAN</button>	
   </div>
@@ -60,7 +60,7 @@
 		  <select id="action" name="action">
 		  <option value="--">Please select</option>
 		  <option value="newUser">New User</option>
-		  <option value="login" selected="">Login</option>
+		  <option value="login">Login</option>
 		  <option value="logout">Logout</option>
 		  <option value="alive">Alive</option>
 		  <option value="setProfile">Set Profile</option>
@@ -73,7 +73,7 @@
 		  <option value="closeSearch">Close for Search</option>
 		  <option value="setBLE">Set BLE</option>
 		  <option value="getBLE">Get BLE</option>
-		  <option value="getOpenBLE">Get Open BLE</option>
+		  <option value="getOpenBLE" selected="">Get Open BLE</option>
 		  <option value="findBLE">Find a BLE</option>
 		</select></div><br>
 		<div class="ui-select"><select name="lang">
@@ -108,19 +108,7 @@
 
 <script>
 $(function () {
-  var data = $.jstorage.get("init","not found");
-  if (data == "not found") {
-  	$.jstorage.set("init","yet");
-  	//Test data  
-  	var test = [{name:"foo1", address:"00:00:00"},{name:"foo2", address:"11:11:11"}];
-  	$.jstorage.set("inphone", JSON.stringify(test));
-  	testLog("First time");
-  }
-  else {
-  	data = $.jstorage.get("inphone", "not found");
-    testLog(data);
-  }
-  testLog("init localStorage");
+  //--------------------Site
   var res={"login":{"op":["user","pwd"],"sub":function(r) {
 			 if (r.key) {$("#keyi").val(r.key); $("#msg").text("OK").show();} else $("#msg").text(r.Error).show();} },
 		   "logout":{"op":[],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
@@ -158,7 +146,7 @@ $(function () {
 			   else $("#msg").html(jTable(r.BLE, "BLE", true)).show();
 			 else $("#msg").text(r.Error).show(); }},
 		   "getOpenBLE":{"op":[],"sub":function(r) {
-		     if (r.BLE !== undefined) $("#msg").html(jTable(r.BLE, "BLE")).show();
+		     if (r.BLE !== undefined) { $("#msg").html(jTable(r.BLE, "BLE")).show(); post_getOpenData(r.BLE);}
 		     else $("#msg").text(r.Error).show();}},
 		   "findBLE":{"op":["address", "loc"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}}
 		  };
@@ -198,6 +186,26 @@ $(function () {
 	}
   });
   $("#action").change();  
+  //-----------------Local
+  var data = $.jStorage.get("init","not found");
+  if (data == "not found") {
+  	$.jStorage.set("init","yet");
+  	//Test data  
+  	var test = [{name:"foo1", address:"00:00:00"},{name:"foo2", address:"11:11:11"}];
+  	$.jStorage.set("inphone", JSON.stringify(test));
+  	testLog("First time");
+  }
+  else {
+  	data = $.jStorage.get("inphone", "not found");
+  	if (data != "not found") {
+  		data = JSON.parse(data);
+		for (var d in data) {
+			$("#phone").append('<button id="BLE'+encode(data[d].address)+'" onclick="post_inphone(\''+data[d].address+'\')" class=" ui-btn ui-shadow ui-corner-all">'+data[d].name+' '+data[d].address+'</button>').show();
+  		}		
+  	}  		
+  }
+	
+ $("#submit").click();	
 });
 
 // Convert a json object array *obj* into jqm table format with table name *tname and option *col_head* is true for first column is the head also
@@ -239,16 +247,22 @@ function testLog(message) {
 }
 
 function start_scan() {
-	stopScan();
-
-	gTestLogData = '';
-	gFoundDevices = {};
-
-	testLog('Starting test');
-
-	// Scan and start first test.
-	if (evothings === undefined) testLog("Plugin not found");
-	else testScan();
+	try {
+		if (undefined === evothings) {
+	    	testLog("Plugin not found");
+		} else {
+			testLog('Starting test');
+			stopScan();
+			gTestLogData = '';
+			gFoundDevices = {};
+			// Scan and start first test.
+			testScan();
+		}
+	} catch (e) {
+   	    testLog("Plugin not found");
+   	    //----For debug only, remove when published
+   	    FindBLE({name:"abcd", address:"33:33:33"});
+	}
 }
 
 function stopScan() {
@@ -263,7 +277,8 @@ function testScan() {
 			if (!gFoundDevices[device.address])		{
 				// Mark device as found.
 				testLog("found.."+device.name+".."+device.address);				
-				gFoundDevices[device.address] = true;
+				gFoundDevices[device.address] = device.name || "BLE";
+				FindBLE(device);
 			}
 		},
 		function(errorCode)	{
@@ -272,5 +287,46 @@ function testScan() {
 	);
 }
 
+function post_inphone(address) {
+	alert(address);
+}
+
+function post_getOpenData(obj) {
+	$("#calling").html("").show();
+	for (var x in obj) {
+		$("#calling").append('<button id="CBLE'+encode(obj[x].Address)+'" class=" ui-btn ui-shadow ui-corner-all">'+obj[x].Name+' '+obj[x].Address+'</button>').show();
+	}
+}
+
+
+function post_found(address) {
+	alert(address);
+}
+
+function post_new(address) {
+	alert(address);
+}
+function FindBLE(device) {
+	var str ="#BLE"+encode(device.address);
+	if ($(str).length > 0) {
+		$(str).css("background-color", "Aqua");
+	}
+	str ="#CBLE"+encode(device.address);
+	if ($(str).length > 0) {
+		$(str).css("background-color", "Orange");
+		$(str).click(function() {post_found(device.address); });
+	}
+	str ="#NBLE"+encode(device.address);
+	if ($(str).length > 0) {
+		// repeat find new 
+	} else {
+		$("#new").append('<button id="NBLE'+encode(device.address)+'" onclick="post_new(\''+device.address+'\')" class=" ui-btn ui-shadow ui-corner-all">'+device.name+' '+device.address+'</button>').show();
+	}
+	
+}
+
+function encode(str) {
+	return str.replace(/:/g, "_");
+}
 </script>
 <div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div></body></html>
