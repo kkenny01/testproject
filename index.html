@@ -2,9 +2,9 @@
 <!-- saved from url=(0061)https://dl.dropboxusercontent.com/u/32777026/post2google2.htm -->
 <html class="ui-mobile"><head><meta http-equiv="Content-Type" content="text/html;">
     
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css">
-    <link rel="stylesheet" href="https://dl.dropboxusercontent.com/u/32777026/table.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+   <link rel="stylesheet" href="https://dl.dropboxusercontent.com/u/32777026/table.css">
     <style type="text/css">
     <!--
         html { background-color: #333; }
@@ -16,6 +16,14 @@
                 border-right: 5px #666 outset !important;
                 border-left: 5px #666 outset !important;
             }
+            .ui-dialog.mydialog .ui-dialog-contain  {	
+            	width: 92.5%;
+				max-width: 500px;
+				margin: 10% auto 15px auto;
+				padding: 0;
+				position: relative;
+				top: 0px;
+            }
         }
     -->
     </style>
@@ -25,86 +33,93 @@
     <script src="./BLE_files/jstorage.min.js"></script>
 	<title>BLE Search System Demo</title></head><body class="ui-mobile-viewport ui-overlay-a">
 
-	<div data-role="page" data-url="./post2google2.htm" tabindex="0" class="ui-page ui-page-theme-a ui-page-active">
+<div data-role="page" data-url="./index.html" tabindex="0" class="ui-page ui-page-theme-a ui-page-active">
 
 	<div data-role="header" role="banner" class="ui-header ui-bar-inherit">
 		<h1 class="ui-title" role="heading" aria-level="1">BLE Search System Demo</h1>
 	</div><!-- /header -->
-	
-<div data-role="tabs" id="tabs">
-  <div data-role="navbar">
-    <ul>
-      <li><a href="#one" data-ajax="false">Local</a></li>
-      <li><a href="#two" data-ajax="false">Site</a></li>
-    </ul>
-  </div>
-  <div id="one" class="ui-body-d ui-content" role="main">
-  		In Phone<br>
-  		<div  id="phone" style="display: none;"></div> 
-  		Call for help<br>
-  		<div  id="calling" style="display: none;"></div>
-  		New
-  		<div  id="new" style="display: none;"></div>
-		<div  id="xmsg" style="display: none;"></div>
-		<button id="scan">SCAN</button>	
-  </div>
-  <div id="two">
-
-
-	<div data-role="content" class="ui-content" >	
-
-		<form id="fm" name="fm" action="" method="post">
-		<p>
-		Action:<br>
-		<div class="ui-select">
-		  <select id="action" name="action">
-		  <option value="--">Please select</option>
-		  <option value="newUser">New User</option>
-		  <option value="login">Login</option>
-		  <option value="logout">Logout</option>
-		  <option value="alive">Alive</option>
-		  <option value="setProfile">Set Profile</option>
-		  <option value="getProfile">Get Profile</option>
-		  <option value="changePassword">New Password</option>
-		  <option value="forgetPassword">Forget Password</option>
-		  <option value="setElder">Set Elder</option>
-		  <option value="getElder">Get Elder</option>
-		  <option value="openSearch">Open for Search</option>
-		  <option value="closeSearch">Close for Search</option>
-		  <option value="setBLE">Set BLE</option>
-		  <option value="getBLE">Get BLE</option>
-		  <option value="getOpenBLE" selected="">Get Open BLE</option>
-		  <option value="findBLE">Find a BLE</option>
-		</select></div><br>
-		<div class="ui-select"><select name="lang">
-		  <option value="tw">Traditional Chinese</option> 
-		  <option value="en">English</option>   
-		</select></div><br>
-		Please specify relative fields:<br>
-		</p>
-		<div class="toggle" id="vendor" style="display: none;">  Vendor(Please contact me to get key):      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="vendori" type="text" name="vendor"></div><br></div>
-		<div class="toggle" id="user" style="display: block;">    User:        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="useri" type="text" name="user"></div><br></div>
-		<div class="toggle" id="pwd" style="display: block;">     Password:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pwdi" type="password" name="pwd"></div><br></div>
-		<div class="toggle" id="oldPwd" style="display: none;">  Old Password:<div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="oldPwdi" type="password" name="oldPwd"></div><br></div>
-		<div class="toggle" id="key" style="display: none;">     Key:         <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="keyi" type="text" name="key"></div><br></div>
-		<div class="toggle" id="name" style="display: none;">    Name:        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="namei" type="text" name="name"></div><br></div>
-		<div class="toggle" id="phone" style="display: none;">   Phone#:      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="phonei" type="text" name="phone"></div><br></div>
-		<div class="toggle" id="comail" style="display: none;">  Second mail: <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="comaili" type="text" name="comail"></div><br></div>
-		<div class="toggle" id="gender" style="display: none;">  Gender:      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="genderi" type="text" name="gender"></div><br></div>
-		<div class="toggle" id="des" style="display: none;">     Descript:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="desi" type="text" name="des"></div><br></div>
-		<div class="toggle" id="album" style="display: none;">   Album:       <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="albumi" type="text" name="album"></div><br></div>
-		<div class="toggle" id="address" style="display: none;"> Address:     <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="addressi" type="text" name="address"></div><br></div>
-		<div class="toggle" id="pin" style="display: none;">     PIN code:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pini" type="text" name="pin"></div><br></div>
-		<div class="toggle" id="loc" style="display: none;">     Location:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="loci" type="text" name="location"></div><br></div>
-		</form>
-		<div class="toggle" id="sub" style="display: block;"><button id="submit" value="NONE" class=" ui-btn ui-shadow ui-corner-all">Send</button></div>
-		<div class="toggle" id="msg" style="display: none;"></div>
-
-	</div><!-- /content -->
-  </div>
+	<div role="main" class="ui-content">
+		<div data-role="tabs" id="tabs">
+			<div data-role="navbar">
+    			<ul>
+      				<li><a href="#one" data-ajax="false">Local</a></li>
+      				<li><a href="#two" data-ajax="false">Site</a></li>
+    			</ul>
+  			</div>
+  			<div id="one" class="ui-body-d ui-content" role="main">
+  				In Phone<br>
+  				<div  id="phone" style="display: none;"></div> 
+  				Call for help<br>
+  				<div  id="calling" style="display: none;"></div>
+  				New
+  				<div  id="new" style="display: none;"></div>
+				<div  id="xmsg" style="display: none;"></div>
+				<button id="scan">SCAN</button>	
+  			</div>
+  			<div id="two">
+				<div data-role="content" class="ui-content" >	
+					<form id="fm" name="fm" action="" method="post">
+						Action:<br>
+						<div class="ui-select">
+		  					<select id="action" name="action">
+		  						<option value="--">Please select</option>
+		  						<option value="newUser">New User</option>
+		  						<option value="login">Login</option>
+			  					<option value="logout">Logout</option>
+			  					<option value="alive">Alive</option>
+			  					<option value="setProfile">Set Profile</option>
+		  						<option value="getProfile">Get Profile</option>
+		  						<option value="changePassword">New Password</option>
+		  						<option value="forgetPassword">Forget Password</option>
+		  						<option value="setElder">Set Elder</option>
+		  						<option value="getElder">Get Elder</option>
+				  				<option value="openSearch">Open for Search</option>
+			  					<option value="closeSearch">Close for Search</option>
+		  						<option value="setBLE">Set BLE</option>
+		  						<option value="getBLE">Get BLE</option>
+		  						<option value="getOpenBLE" selected="">Get Open BLE</option>
+		  						<option value="findBLE">Find a BLE</option>
+							</select>
+						</div><br>
+						<div class="ui-select">
+							<select name="lang">
+		  						<option value="tw">Traditional Chinese</option> 
+		  						<option value="en">English</option>   
+							</select>
+						</div><br>
+						Please specify relative fields:<br>
+						<div class="toggle" id="vendor" style="display: none;">  Vendor(Please contact me to get key):      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="vendori" type="text" name="vendor"></div><br></div>
+						<div class="toggle" id="user" style="display: block;">    User:        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="useri" type="text" name="user"></div><br></div>
+						<div class="toggle" id="pwd" style="display: block;">     Password:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pwdi" type="password" name="pwd"></div><br></div>
+						<div class="toggle" id="oldPwd" style="display: none;">  Old Password:<div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="oldPwdi" type="password" name="oldPwd"></div><br></div>
+						<div class="toggle" id="key" style="display: none;">     Key:         <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="keyi" type="text" name="key"></div><br></div>
+						<div class="toggle" id="name" style="display: none;">    Name:        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="namei" type="text" name="name"></div><br></div>
+						<div class="toggle" id="phone" style="display: none;">   Phone#:      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="phonei" type="text" name="phone"></div><br></div>
+						<div class="toggle" id="comail" style="display: none;">  Second mail: <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="comaili" type="text" name="comail"></div><br></div>
+						<div class="toggle" id="gender" style="display: none;">  Gender:      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="genderi" type="text" name="gender"></div><br></div>
+						<div class="toggle" id="des" style="display: none;">     Descript:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="desi" type="text" name="des"></div><br></div>
+						<div class="toggle" id="album" style="display: none;">   Album:       <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="albumi" type="text" name="album"></div><br></div>
+						<div class="toggle" id="address" style="display: none;"> Address:     <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="addressi" type="text" name="address"></div><br></div>
+						<div class="toggle" id="pin" style="display: none;">     PIN code:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pini" type="text" name="pin"></div><br></div>
+						<div class="toggle" id="loc" style="display: none;">     Location:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="loci" type="text" name="location"></div><br></div>
+					</form>
+					<div class="toggle" id="sub" style="display: block;"><button id="submit" value="NONE" class=" ui-btn ui-shadow ui-corner-all">Send</button></div>
+					<div class="toggle" id="msg" style="display: none;"></div>
+				</div><!-- /content -->
+			</div> <!-- /two -->
+		</div>
+	</div><!-- /main -->
+</div> 
+<a href="#dialog" id="showdig" data-rel="dialog" data-transition="pop" style='display:none;'></a>
+<div data-role="page" data-close-btn="none" data-dialog="true" id="dialog" class="mydialog" >
+	<div data-role="header" data-theme="a">
+		<h1 id="prompt" carry="">Init</h1>
+	</div>
+	<div role="main" class="ui-content">
+		<a href="#xx" id="dig_ok" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" onclick="dig_ok();">OK</a>
+		<a href="#xx" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a">Cancel</a>
+	</div>
 </div>
-
-</div><!-- /page -->
 
 <script>
 $(function () {
@@ -288,7 +303,10 @@ function testScan() {
 }
 
 function post_inphone(address) {
-	alert(address);
+	//alert(address);
+	$("#prompt").text("Upload");
+	$("#prompt").attr("carry", address);
+	$("#showdig").click();
 }
 
 function post_getOpenData(obj) {
@@ -327,6 +345,10 @@ function FindBLE(device) {
 
 function encode(str) {
 	return str.replace(/:/g, "_");
+}
+
+function dig_ok() {
+	alert("OOXX"); // $("#prompt".attr("carry")));
 }
 </script>
 <div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div></body></html>
