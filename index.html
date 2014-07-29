@@ -2,19 +2,19 @@
 <!-- saved from url=(0061)https://dl.dropboxusercontent.com/u/32777026/post2google2.htm -->
 <html class="ui-mobile"><head><meta http-equiv="Content-Type" content="text/html;">
     
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css">
+    <link rel="stylesheet" href="./BLE_files/jquery.mobile.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
-   <link rel="stylesheet" href="https://dl.dropboxusercontent.com/u/32777026/table.css">
+   <link rel="stylesheet" href="./BLE_files/table.css">
     <style type="text/css">
     <!--
         html { background-color: #333; }
         @media only screen and (min-width: 600px){
             .ui-page {
-                width: 600px !important;
-                margin: 0 auto !important;
-                position: relative !important;
-                border-right: 5px #666 outset !important;
-                border-left: 5px #666 outset !important;
+                width: 600px;
+                margin: 0 auto;
+                position: relative;
+                border-right: 5px #666 outset;
+                border-left: 5px #666 outset;
             }
             .ui-dialog.mydialog .ui-dialog-contain  {	
             	width: 92.5%;
@@ -42,8 +42,8 @@
 		<div data-role="tabs" id="tabs">
 			<div data-role="navbar">
     			<ul>
-      				<li><a href="#one" data-ajax="false">Local</a></li>
-      				<li><a href="#two" data-ajax="false">Site</a></li>
+      				<li><a href="#one" data-ajax="false" id="tab_local">Local</a></li>
+      				<li><a href="#two" data-ajax="false" id="tab_site">Site</a></li>
     			</ul>
   			</div>
   			<div id="one" class="ui-body-d ui-content" role="main">
@@ -55,6 +55,7 @@
   				<div  id="new" style="display: none;"></div>
 				<div  id="xmsg" style="display: none;"></div>
 				<button id="scan">SCAN</button>	
+				<button onclick="$.jStorage.deleteKey('init');">Reset</button>	
   			</div>
   			<div id="two">
 				<div data-role="content" class="ui-content" >	
@@ -88,9 +89,9 @@
 							</select>
 						</div><br>
 						Please specify relative fields:<br>
-						<div class="toggle" id="vendor" style="display: none;">  Vendor(Please contact me to get key):      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="vendori" type="text" name="vendor"></div><br></div>
-						<div class="toggle" id="user" style="display: block;">    User:        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="useri" type="text" name="user"></div><br></div>
-						<div class="toggle" id="pwd" style="display: block;">     Password:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pwdi" type="password" name="pwd"></div><br></div>
+						<div class="toggle" id="vendor" style="display: none;">  Vendor(Please contact me to get key):      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="vendori" type="text" name="vendor" value="22391647"></div><br></div>
+						<div class="toggle" id="user" style="display: block;">   User:        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="useri" type="text" name="user"></div><br></div>
+						<div class="toggle" id="pwd" style="display: block;">    Password:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pwdi" type="password" name="pwd"></div><br></div>
 						<div class="toggle" id="oldPwd" style="display: none;">  Old Password:<div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="oldPwdi" type="password" name="oldPwd"></div><br></div>
 						<div class="toggle" id="key" style="display: none;">     Key:         <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="keyi" type="text" name="key"></div><br></div>
 						<div class="toggle" id="name" style="display: none;">    Name:        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="namei" type="text" name="name"></div><br></div>
@@ -103,6 +104,13 @@
 						<div class="toggle" id="pin" style="display: none;">     PIN code:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pini" type="text" name="pin"></div><br></div>
 						<div class="toggle" id="loc" style="display: none;">     Location:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="loci" type="text" name="location"></div><br></div>
 					</form>
+					<div  class="toggle" id="session" style="display: none;">
+						<select id="sessionx">
+							<option value="reme"> Remeber me</option>
+							<option value="repa"> Remeber password</option>
+							<option value="no"> Do no thing</option>	
+						</select>
+					</div>
 					<div class="toggle" id="sub" style="display: block;"><button id="submit" value="NONE" class=" ui-btn ui-shadow ui-corner-all">Send</button></div>
 					<div class="toggle" id="msg" style="display: none;"></div>
 				</div><!-- /content -->
@@ -113,22 +121,28 @@
 <a href="#dialog" id="showdig" data-rel="dialog" data-transition="pop" style='display:none;'></a>
 <div data-role="page" data-close-btn="none" data-dialog="true" id="dialog" class="mydialog" >
 	<div data-role="header" data-theme="a">
-		<h1 id="prompt" carry="">Init</h1>
+		<h1 id="prompt"></h1>
 	</div>
 	<div role="main" class="ui-content">
-		<a href="#xx" id="dig_ok" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" onclick="dig_ok();">OK</a>
-		<a href="#xx" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a">Cancel</a>
+		<a href="" id="dig_ok" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" onclick="dig_ok();">OK</a>
+		<a href="" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a">Cancel</a>
+		<a href="" id="dig_del" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" onclick="dig_del();">DELETE</a>
 	</div>
 </div>
 
 <script>
+
+var inphone_mem = [];
 $(function () {
   //--------------------Site
-  var res={"login":{"op":["user","pwd"],"sub":function(r) {
-			 if (r.key) {$("#keyi").val(r.key); $("#msg").text("OK").show();} else $("#msg").text(r.Error).show();} },
+  var res={"login":{"op":["user","pwd", "session"],"sub":function(r) {
+			 if (r.key) {$("#keyi").val(r.key); $("#msg").text("OK").show(); post_login();} else $("#msg").text(r.Error).show();} },
 		   "logout":{"op":[],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
-		   "newUser":{"op":["vendor","user"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
-		   "alive":{"op":[],"sub":function(r) {$("#msg").text(r.User||r.Error).show();}},
+		   "newUser":{"op":["user"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
+		   "alive":{"op":[],"sub":function(r) {
+		   	 $("#msg").text(r.User||r.Error).show(); 
+		   	 if (r.User === null) { $("#action").val("login");	 $("#action").change();}
+		   	 if (r.User.length > 0) post_alive();	   }},
 		   "setProfile":{"op":["name","phone","comail"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}},
 		   "getProfile":{"op":[],"sub":function(r) {
 		     if (r.Name!==undefined) {
@@ -208,6 +222,9 @@ $(function () {
   	//Test data  
   	var test = [{name:"foo1", address:"00:00:00"},{name:"foo2", address:"11:11:11"}];
   	$.jStorage.set("inphone", JSON.stringify(test));
+  	//First time
+  	$.jStorage.set("user","");
+  	$.jStorage.set("pwd","");
   	testLog("First time");
   }
   else {
@@ -215,9 +232,14 @@ $(function () {
   	if (data != "not found") {
   		data = JSON.parse(data);
 		for (var d in data) {
-			$("#phone").append('<button id="BLE'+encode(data[d].address)+'" onclick="post_inphone(\''+data[d].address+'\')" class=" ui-btn ui-shadow ui-corner-all">'+data[d].name+' '+data[d].address+'</button>').show();
-  		}		
-  	}  		
+			$("#phone").append('<button id="BLE'+encode(data[d].address)+'" onclick="post_inphone(\''+data[d].name+'\',\''+data[d].address+'\')" class=" ui-btn ui-shadow ui-corner-all">'+data[d].name+' '+data[d].address+'</button>').show();
+  		}
+  		inphone_mem = data;
+  	}
+  	$("#useri").val($.jStorage.get("user"));
+  	if ($("#useri").val().length > 0) $("#sessionx").val("reme");
+  	$("#pwdi").val($.jStorage.get("pwd"));
+  	if ($("#pwdi").val().length > 0) $("#sessionx").val("repa");
   }
 	
  $("#submit").click();	
@@ -275,9 +297,10 @@ function start_scan() {
 		}
 	} catch (e) {
    	    testLog("Plugin not found");
-   	    //----For debug only, remove when published
-   	    FindBLE({name:"abcd", address:"33:33:33"});
 	}
+   	    //----For debug only, remove when published
+   	    FindBLE({name:"abc", address:"ssss"});
+   	    FindBLE({name:"abcd", address:"33:33:33"});
 }
 
 function stopScan() {
@@ -302,10 +325,13 @@ function testScan() {
 	);
 }
 
-function post_inphone(address) {
-	//alert(address);
+var d_event = {action:"no"};
+
+function post_inphone(name, address) {
+	alert(name+' '+address);
+	d_event = {"action":"upload", "name":name, "address":address};
 	$("#prompt").text("Upload");
-	$("#prompt").attr("carry", address);
+	$("#dig_del").show();
 	$("#showdig").click();
 }
 
@@ -317,30 +343,43 @@ function post_getOpenData(obj) {
 }
 
 
-function post_found(address) {
-	alert(address);
+function post_found(name, address) {
+	//alert("notify "+name+' '+address);
+	d_event = {"action":"notify", "name":name, "address":address};
+	$("#prompt").text("Notify");
+	$("#dig_del").hide();
+	$("#showdig").click();
 }
 
-function post_new(address) {
-	alert(address);
+function post_new(name, address) {
+	//alert(address);
+	d_event = {"action":"save", "name":name, "address":address};
+	$("#prompt").text("Save");
+	$("#dig_del").hide();
+	$("#showdig").click();
 }
+
 function FindBLE(device) {
 	var str ="#BLE"+encode(device.address);
+	var nble = true;
 	if ($(str).length > 0) {
 		$(str).css("background-color", "Aqua");
-	}
+		nble = false;
+	} 
 	str ="#CBLE"+encode(device.address);
 	if ($(str).length > 0) {
 		$(str).css("background-color", "Orange");
-		$(str).click(function() {post_found(device.address); });
+		$(str).click(function() {post_found(device.name, device.address); });
+		nble = false;
 	}
-	str ="#NBLE"+encode(device.address);
-	if ($(str).length > 0) {
-		// repeat find new 
-	} else {
-		$("#new").append('<button id="NBLE'+encode(device.address)+'" onclick="post_new(\''+device.address+'\')" class=" ui-btn ui-shadow ui-corner-all">'+device.name+' '+device.address+'</button>').show();
+	if (nble) {
+		str ="#NBLE"+encode(device.address);
+		if ($(str).length > 0) {
+			// repeat find new 
+		} else {
+			$("#new").append('<button id="NBLE'+encode(device.address)+'" onclick="post_new(\''+device.name+'\',\''+device.address+'\')" class=" ui-btn ui-shadow ui-corner-all">'+device.name+' '+device.address+'</button>').show();
+		}
 	}
-	
 }
 
 function encode(str) {
@@ -348,7 +387,74 @@ function encode(str) {
 }
 
 function dig_ok() {
-	alert("OOXX"); // $("#prompt".attr("carry")));
+	//alert("OOXX"); 
+	if (d_event.action == "save") {
+		inphone_mem.push({"name":d_event.name, "address":d_event.address});
+		$.jStorage.set("inphone", JSON.stringify( inphone_mem));
+		$("#NBLE"+encode(d_event.address)).remove();
+		$("#phone").append('<button id="BLE'+encode(d_event.address)+'" onclick="post_inphone(\''+d_event.name+'\',\''+d_event.address+'\')" class=" ui-btn ui-shadow ui-corner-all">'+d_event.name+' '+d_event.address+'</button>').show();
+		d_event = {action:"no"};
+	} else if (d_event.action == "notify") {
+		$("#action").val("findBLE");
+		$("#action").change(); 
+		$("#addressi").val(d_event.address);
+		if (undefined === navigator.geolocation) {
+			$("#loci").val("wait for implement");	
+		}
+		else navigator.geolocation.getCurrentPosition(function(pos) {
+			$("#loci").val(JSON.stringify(pos));
+		}, function(err){ alert(err.message);});
+		$("#tab_site").click();
+		d_event = {action:"no"};
+	} else if (d_event.action == "upload") {
+		$("#namei").val(d_event.name);
+		$("#addressi").val(d_event.address);
+		$("#tab_site").click();
+		if ($("#keyi").val().length > 0) {
+			$("#action").val("alive");	
+			$("#submit").click(); 	
+		} else {
+  			$("#action").val("login");	
+			$("#action").change(); 
+  		}
+	}
 }
+
+function post_login() {
+	if (d_event.action == "upload") {
+		$("#action").val("setBLE");	
+		$("#action").change(); 
+		d_event = {action:"no"};
+	}
+	if ($("#sessionx").val() == "repa") {
+		$.jStorage.set("user", $("#useri").val());
+		$.jStorage.set("pwd", $("#pwdi").val());
+	} else if ($("#sessionx").val() == "reme") {
+		$.jStorage.set("user", $("#useri").val());
+		$.jStorage.set("pwd", "");
+	} else {
+		$.jStorage.set("user", "");
+		$.jStorage.set("pwd", "");
+	}
+}
+
+function  post_alive() {
+	if (d_event.action == "upload") {
+		$("#action").val("setBLE");	
+		$("#action").change(); 
+		d_event = {action:"no"};
+	}	
+}
+
+function dig_del() { //specail for in phone upload dialog
+	for (var d in inphone_mem) {
+		if (inphone_mem[d].address == d_event.address) {
+			inphone_mem.splice(d,1);
+			$("#BLE"+encode(d_event.address)).remove();
+			$.jStorage.set("inphone", JSON.stringify( inphone_mem));
+		}
+	}
+}
+
 </script>
 <div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div></body></html>

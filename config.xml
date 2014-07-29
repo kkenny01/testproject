@@ -7,10 +7,10 @@
 
     <!-- versionCode is optional and Android only -->
 
-    <name>PhoneGap BLE Example</name>
+    <name>BLE Finder for elder</name>
 
     <description>
-        An example for phonegap build docs. 
+        An example for BLE finder helping system 
     </description>
 
     <author href="https://sites.google.com/site/linyawjen" email="linyawjen@gmail.com">
@@ -19,5 +19,6 @@
     <gap:platform name="ios" />
     <gap:platform name="android" />
     <gap:plugin name="com.evothings.ble" version="1.0.0" />
+    <gap:plugin name="org.apache.cordova.geolocation" version="0.3.7" />
     <access origin="*" />
 </widget>
