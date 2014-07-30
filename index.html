@@ -1,7 +1,5 @@
-
-<!-- saved from url=(0061)https://dl.dropboxusercontent.com/u/32777026/post2google2.htm -->
-<html class="ui-mobile"><head><meta http-equiv="Content-Type" content="text/html;">
-    
+<html class="ui-mobile">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="./BLE_files/jquery.mobile.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
    <link rel="stylesheet" href="./BLE_files/table.css">
@@ -308,7 +306,7 @@ function stopScan() {
 }
 
 function testScan() {
-	testLog('Scanning...');
+	testLog('Scanning...');	
 	evothings.ble.startScan(
 		function(device)	{
 			// Run the test suite once per device.
@@ -399,10 +397,10 @@ function dig_ok() {
 		$("#action").change(); 
 		$("#addressi").val(d_event.address);
 		if (undefined === navigator.geolocation) {
-			$("#loci").val("wait for implement");	
+			$("#loci").val("geolocation not implement");	
 		}
 		else navigator.geolocation.getCurrentPosition(function(pos) {
-			$("#loci").val(JSON.stringify(pos));
+			$("#loci").val(JSON.stringify(pos.coords));
 		}, function(err){ alert(err.message);});
 		$("#tab_site").click();
 		d_event = {action:"no"};
