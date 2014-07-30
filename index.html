@@ -292,6 +292,7 @@ function start_scan() {
 			gFoundDevices = {};
 			// Scan and start first test.
 			testScan();
+			setTimeout( 'stopScan()',5000 );
 		}
 	} catch (e) {
    	    testLog("Plugin not found");
