@@ -400,7 +400,7 @@ function dig_ok() {
 			$("#loci").val("geolocation not implement");	
 		}
 		else navigator.geolocation.getCurrentPosition(function(pos) {
-			$("#loci").val(JSON.stringify(pos.coords));
+			$("#loci").val(pos.coords.longitude+":"+pos.coords.latitude);
 		}, function(err){ alert(err.message);});
 		$("#tab_site").click();
 		d_event = {action:"no"};
