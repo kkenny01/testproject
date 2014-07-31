@@ -109,7 +109,7 @@
 							<option value="no"> Do no thing</option>	
 						</select>
 					</div>
-					<div class="toggle" id="sub" style="display: block;"><button id="submit" value="NONE" class=" ui-btn ui-shadow ui-corner-all">Send</button></div>
+					<div id="sub" style="display: block;"><button id="submit" value="NONE" class=" ui-btn ui-shadow ui-corner-all">Send</button></div>
 					<div class="toggle" id="msg" style="display: none;"></div>
 				</div><!-- /content -->
 			</div> <!-- /two -->
@@ -169,6 +169,7 @@ $(function () {
 			   if (r.BLE.length == 1) {		     
 			     $("#namei").val(r.BLE[0].Name);$("#name").show(); 
 			     $("#pini").val(r.BLE[0].PIN);$("#pin").show();
+			     $("loci").val(r.BLE[0].Location); $("#loc").show();
 			     }
 			   else $("#msg").html(jTable(r.BLE, "BLE", true)).show();
 			 else $("#msg").text(r.Error).show(); }},
