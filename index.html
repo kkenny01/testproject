@@ -325,40 +325,6 @@ function testScan() {
 	);
 }
 
-var d_event = {action:"no"};
-
-function post_inphone(name, address) {
-	alert(name+' '+address);
-	d_event = {"action":"upload", "name":name, "address":address};
-	$("#prompt").text("Upload");
-	$("#dig_del").show();
-	$("#showdig").click();
-}
-
-function post_getOpenData(obj) {
-	$("#calling").html("").show();
-	for (var x in obj) {
-		$("#calling").append('<button id="CBLE'+encode(obj[x].Address)+'" class=" ui-btn ui-shadow ui-corner-all">'+obj[x].Name+' '+obj[x].Address+'</button>').show();
-	}
-}
-
-
-function post_found(name, address) {
-	//alert("notify "+name+' '+address);
-	d_event = {"action":"notify", "name":name, "address":address};
-	$("#prompt").text("Notify");
-	$("#dig_del").hide();
-	$("#showdig").click();
-}
-
-function post_new(name, address) {
-	//alert(address);
-	d_event = {"action":"save", "name":name, "address":address};
-	$("#prompt").text("Save");
-	$("#dig_del").hide();
-	$("#showdig").click();
-}
-
 function FindBLE(device) {
 	var str ="#BLE"+encode(device.address);
 	var nble = true;
@@ -402,7 +368,7 @@ function dig_ok() {
 			$("#loci").val("geolocation not implement");	
 		}
 		else navigator.geolocation.getCurrentPosition(function(pos) {
-			$("#loci").val(pos.coords.longitude+":"+pos.coords.latitude);
+			$("#loci").val(pos.coords.latitude+","+pos.coords.longitude);
 		}, function(err){ alert(err.message);});
 		$("#tab_site").click();
 		d_event = {action:"no"};
@@ -419,6 +385,42 @@ function dig_ok() {
   		}
 	}
 }
+
+
+var d_event = {action:"no"};
+
+function post_inphone(name, address) {
+	alert(name+' '+address);
+	d_event = {"action":"upload", "name":name, "address":address};
+	$("#prompt").text("Upload");
+	$("#dig_del").show();
+	$("#showdig").click();
+}
+
+function post_getOpenData(obj) {
+	$("#calling").html("").show();
+	for (var x in obj) {
+		$("#calling").append('<button id="CBLE'+encode(obj[x].Address)+'" class=" ui-btn ui-shadow ui-corner-all">'+obj[x].Name+' '+obj[x].Address+'</button>').show();
+	}
+}
+
+
+function post_found(name, address) {
+	//alert("notify "+name+' '+address);
+	d_event = {"action":"notify", "name":name, "address":address};
+	$("#prompt").text("Notify");
+	$("#dig_del").hide();
+	$("#showdig").click();
+}
+
+function post_new(name, address) {
+	//alert(address);
+	d_event = {"action":"save", "name":name, "address":address};
+	$("#prompt").text("Save");
+	$("#dig_del").hide();
+	$("#showdig").click();
+}
+
 
 function post_login() {
 	if (d_event.action == "upload") {
