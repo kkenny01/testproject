@@ -33,9 +33,20 @@
 	<title>BLE Search System Demo</title></head>
 	<body class="ui-mobile-viewport ui-overlay-a">
 
-<div ng-init="texts = [{lang:'tw', title:'低功率藍芽協尋範例',    local:'本機'},
-                       {lang:'en', title:'BLE Search System Demo',local:'Local'}
-                      ]"></div>
+<div ng-init="texts = [{lang:'tw', title:'低功率藍芽協尋範例', local:'本機', site:'平台', inp:'內存', cfh:'呼叫協尋', 
+    newf:'新發現', scan:'掃瞄', act:'動作', ps:'請選擇', nu:'新使用者', li:'登入', lo:'登出', al:'連線狀態', 
+    sp:'設定個人資訊', gp:'取得個人資訊', np:'更新密碼', fp:'忘記密碼', se:'設定長者資訊', ge:'取得長者資訊', 
+    os:'開放搜尋', cs:'關閉搜尋', sb:'設定藍芽資訊', gb:'取得藍芽資訊', gob:'取得開放藍芽', fb:'發現藍芽', 
+    user:'使用者', pwd:'密碼', opwd:'舊密碼', name:'姓名', mp:'手機號碼(不用0開頭)', sm:'備用郵件', gdr:'稱謂', 
+    des:'描述', alb:'相簿', add:'地址', pinc:'PIN碼', loc:'位置', rm:'記住使用者', rp:'記住密碼', dont:'不記憶', send:'送出'},
+    {lang:'en', title:'BLE Search System Demo', local:'Local', site:'Site', inp:'In Phone', cfh:'Call for help',
+    newf:'New found', scan:'Scan', act:'Action', ps:'Please select', nu:'New User', li:'Login', lo:'Logout', al:'Alive',
+    sp:'Set Profile', gp:'Get Profile', np:'New Password', fp:'Forget Password', se:'Set Elder', ge:'Get Elder',   
+    os:'Open for Search', cs:'Close for Search', sb:'Set BLE', gb:'Get BLE', gob:'Get Open BLE', fb:'Find a BLE',
+    user:'User', pwd:'Password', opwd:'Old Password', name:'Name', mp:'MobilePhone# without first 0', sm:'Second mail', gdr:'Gender',
+    des:'Description', alb:'Album', add:'Address', pinc:'PIN code', loc:'Location', rm:'Remeber me', rp:'Remeber password',
+    dont:'Do no thing', send:'Send'}
+    ]"></div>
                          
 <div data-role="page" data-url="./index.html" tabindex="0" class="ui-page ui-page-theme-a ui-page-active">
 
@@ -48,75 +59,74 @@
 			<div data-role="navbar">
     			<ul>
       				<li><a href="#one" data-ajax="false" id="tab_local">{{ (texts | filter:search)[0].local}}</a></li>
-      				<li><a href="#two" data-ajax="false" id="tab_site">Site</a></li>
+      				<li><a href="#two" data-ajax="false" id="tab_site">{{ (texts | filter:search)[0].site}}</a></li>
     			</ul>
   			</div>
   			<div id="one" class="ui-body-d ui-content" role="main">
-  				In Phone<br>
+  				{{ (texts | filter:search)[0].inp}}<br>
   				<div  id="phone" style="display: none;"></div> 
-  				Call for help<br>
+  				{{ (texts | filter:search)[0].cfh}}<br>
   				<div  id="calling" style="display: none;"></div>
-  				New
+  				{{ (texts | filter:search)[0].newf}}<br>
   				<div  id="new" style="display: none;"></div>
+				<button id="scan">{{ (texts | filter:search)[0].scan}}</button>
 				<div  id="xmsg" style="display: none;"></div>
-				<button id="scan">SCAN</button>	
-				<button onclick="$.jStorage.deleteKey('init');">Reset</button>	
+				<!--button onclick="$.jStorage.deleteKey('init');$.jStorage.deleteKey('inphone');">Reset</button !-->	
   			</div>
   			<div id="two">
 				<div data-role="content" class="ui-content" >	
 					<form id="fm" name="fm" action="" method="post">
-						Action:<br>
+						{{ (texts | filter:search)[0].act}}:<br>
 						<div class="ui-select">
 		  					<select id="action" name="action">
-		  						<option value="--">Please select</option>
-		  						<option value="newUser">New User</option>
-		  						<option value="login">Login</option>
-			  					<option value="logout">Logout</option>
-			  					<option value="alive">Alive</option>
-			  					<option value="setProfile">Set Profile</option>
-		  						<option value="getProfile">Get Profile</option>
-		  						<option value="changePassword">New Password</option>
-		  						<option value="forgetPassword">Forget Password</option>
-		  						<option value="setElder">Set Elder</option>
-		  						<option value="getElder">Get Elder</option>
-				  				<option value="openSearch">Open for Search</option>
-			  					<option value="closeSearch">Close for Search</option>
-		  						<option value="setBLE">Set BLE</option>
-		  						<option value="getBLE">Get BLE</option>
-		  						<option value="getOpenBLE" selected="">Get Open BLE</option>
-		  						<option value="findBLE">Find a BLE</option>
+		  						<option value="--">{{ (texts | filter:search)[0].ps}}</option>
+		  						<option value="newUser">{{ (texts | filter:search)[0].nu}}</option>
+		  						<option value="login">{{ (texts | filter:search)[0].li}}</option>
+			  					<option value="logout">{{ (texts | filter:search)[0].lo}}</option>
+			  					<option value="alive">{{ (texts | filter:search)[0].al}}</option>
+			  					<option value="setProfile">{{ (texts | filter:search)[0].sp}}</option>
+		  						<option value="getProfile">{{ (texts | filter:search)[0].gp}}</option>
+		  						<option value="changePassword">{{ (texts | filter:search)[0].np}}</option>
+		  						<option value="forgetPassword">{{ (texts | filter:search)[0].fp}}</option>
+		  						<option value="setElder">{{ (texts | filter:search)[0].se}}</option>
+		  						<option value="getElder">{{ (texts | filter:search)[0].ge}}</option>
+				  				<option value="openSearch">{{ (texts | filter:search)[0].os}}</option>
+			  					<option value="closeSearch">{{ (texts | filter:search)[0].cs}}</option>
+		  						<option value="setBLE">{{ (texts | filter:search)[0].sb}}</option>
+		  						<option value="getBLE">{{ (texts | filter:search)[0].gb}}</option>
+		  						<option value="getOpenBLE" selected="">{{ (texts | filter:search)[0].gob}}</option>
+		  						<option value="findBLE">{{ (texts | filter:search)[0].fb}}</option>
 							</select>
 						</div><br>
 						<div class="ui-select">
-							<select name="lang" ng-model="search.lang" ng-init="search.lang = 'tw'">
+							<select id="lang" name="lang" ng-model="search.lang" ng-init="search.lang = 'tw'">
 		  						<option value="tw">繁體中文</option> 
 		  						<option value="en">English</option>   
 							</select>
 						</div><br>
-						Please specify relative fields:<br>
-						<div class="toggle" id="vendor" style="display: none;">  Vendor(Please contact me to get key):      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="vendori" type="text" name="vendor" value="22391647"></div><br></div>
-						<div class="toggle" id="user" style="display: block;">   User:        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="useri" type="text" name="user"></div><br></div>
-						<div class="toggle" id="pwd" style="display: block;">    Password:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pwdi" type="password" name="pwd"></div><br></div>
-						<div class="toggle" id="oldPwd" style="display: none;">  Old Password:<div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="oldPwdi" type="password" name="oldPwd"></div><br></div>
+						<div class="toggle" id="vendor" style="display: none;">  Vendor(Please contact me to get key):<div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="vendori" type="text" name="vendor" value="22391647"></div><br></div>
+						<div class="toggle" id="user" style="display: block;">   {{ (texts | filter:search)[0].user}}:<div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="useri" type="text" name="user"></div><br></div>
+						<div class="toggle" id="pwd" style="display: block;">    {{ (texts | filter:search)[0].pwd}}: <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pwdi" type="password" name="pwd"></div><br></div>
+						<div class="toggle" id="oldPwd" style="display: none;">  {{ (texts | filter:search)[0].opwd}}:<div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="oldPwdi" type="password" name="oldPwd"></div><br></div>
 						<div class="toggle" id="key" style="display: none;">     Key:         <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="keyi" type="text" name="key"></div><br></div>
-						<div class="toggle" id="name" style="display: none;">    Name:        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="namei" type="text" name="name"></div><br></div>
-						<div class="toggle" id="phone" style="display: none;">   Phone#:      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="phonei" type="text" name="phone"></div><br></div>
-						<div class="toggle" id="comail" style="display: none;">  Second mail: <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="comaili" type="text" name="comail"></div><br></div>
-						<div class="toggle" id="gender" style="display: none;">  Gender:      <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="genderi" type="text" name="gender"></div><br></div>
-						<div class="toggle" id="des" style="display: none;">     Descript:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="desi" type="text" name="des"></div><br></div>
-						<div class="toggle" id="album" style="display: none;">   Album:       <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="albumi" type="text" name="album"></div><br></div>
-						<div class="toggle" id="address" style="display: none;"> Address:     <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="addressi" type="text" name="address"></div><br></div>
-						<div class="toggle" id="pin" style="display: none;">     PIN code:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pini" type="text" name="pin"></div><br></div>
-						<div class="toggle" id="loc" style="display: none;">     Location:    <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="loci" type="text" name="location"></div><br></div>
+						<div class="toggle" id="name" style="display: none;">    {{ (texts | filter:search)[0].name}}:<div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="namei" type="text" name="name"></div><br></div>
+						<div class="toggle" id="phone" style="display: none;">   {{ (texts | filter:search)[0].mp}}:  <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="phonei" type="text" name="phone"></div><br></div>
+						<div class="toggle" id="comail" style="display: none;">  {{ (texts | filter:search)[0].sm}}:  <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="comaili" type="text" name="comail"></div><br></div>
+						<div class="toggle" id="gender" style="display: none;">  {{ (texts | filter:search)[0].gdr}}: <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="genderi" type="text" name="gender"></div><br></div>
+						<div class="toggle" id="des" style="display: none;">     {{ (texts | filter:search)[0].des}}: <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="desi" type="text" name="des"></div><br></div>
+						<div class="toggle" id="album" style="display: none;">   {{ (texts | filter:search)[0].alb}}: <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="albumi" type="text" name="album"></div><br></div>
+						<div class="toggle" id="address" style="display: none;"> {{ (texts | filter:search)[0].add}}: <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="addressi" type="text" name="address"></div><br></div>
+						<div class="toggle" id="pin" style="display: none;">     {{ (texts | filter:search)[0].pinc}}:<div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="pini" type="text" name="pin"></div><br></div>
+						<div class="toggle" id="loc" style="display: none;">     {{ (texts | filter:search)[0].loc}}: <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input id="loci" type="text" name="location"></div><br></div>
 					</form>
 					<div  class="toggle" id="session" style="display: none;">
 						<select id="sessionx">
-							<option value="reme"> Remeber me</option>
-							<option value="repa"> Remeber password</option>
-							<option value="no"> Do no thing</option>	
+							<option value="reme">{{ (texts | filter:search)[0].rm}}</option>
+							<option value="repa">{{ (texts | filter:search)[0].rp}}</option>
+							<option value="no">{{ (texts | filter:search)[0].dont}}</option>	
 						</select>
 					</div>
-					<div id="sub" style="display: block;"><button id="submit" value="NONE" class=" ui-btn ui-shadow ui-corner-all">Send</button></div>
+					<div id="sub" style="display: block;"><button id="submit" value="NONE" class=" ui-btn ui-shadow ui-corner-all">{{ (texts | filter:search)[0].send}}</button></div>
 					<div class="toggle" id="msg" style="display: none;"></div>
 				</div><!-- /content -->
 			</div> <!-- /two -->
@@ -194,7 +204,7 @@ $(function () {
          url: "https://script.google.com/macros/s/AKfycbxpWcV6dClI-gY_RExPYO5q_y74QMNAW9CkAl9wjx89asP7cget/exec",
          data: $('#fm').serialize(), 
          success: function(response) {
-            alert(JSON.stringify(response));  //*******************Remove this line when ready
+            //alert(JSON.stringify(response));  //*******************Remove this line when ready
 			if (res[v] && res[v].sub) {
 			  res[v].sub(response);
 			}
@@ -203,7 +213,8 @@ $(function () {
             alert(error+":"+JSON.stringify(status)+":"+JSON.stringify(response));
         }
      });	
-    $("#action").val("--");	 
+    $("#action").val("--");
+    $("#action").change();
   });
   
   $("#scan").click(function() {
@@ -220,14 +231,19 @@ $(function () {
 	  $("div#sub").show();
 	}
   });
+  
+  $("#lang").change(function(){
+  	$("#action").change();
+  });
+  
   $("#action").change();  
   //-----------------Local
   var data = $.jStorage.get("init","not found");
   if (data == "not found") {
   	$.jStorage.set("init","yet");
   	//Test data  
-  	var test = [{name:"foo1", address:"00:00:00"},{name:"foo2", address:"11:11:11"}];
-  	$.jStorage.set("inphone", JSON.stringify(test));
+  	//var test = [{name:"foo1", address:"00:00:00"},{name:"foo2", address:"11:11:11"}];
+  	//$.jStorage.set("inphone", JSON.stringify(test));
   	//First time
   	$.jStorage.set("user","");
   	$.jStorage.set("pwd","");
@@ -306,8 +322,8 @@ function start_scan() {
    	    testLog("Plugin not found");
 	}
    	    //----For debug only, remove when published
-   	    FindBLE({name:"abc", address:"ssss"});
-   	    FindBLE({name:"abcd", address:"33:33:33"});
+   	    //FindBLE({name:"abc", address:"ssss"});
+   	    //FindBLE({name:"abcd", address:"33:33:33"});
 }
 
 function stopScan() {
@@ -409,6 +425,7 @@ function post_getOpenData(obj) {
 	for (var x in obj) {
 		$("#calling").append('<button id="CBLE'+encode(obj[x].Address)+'" class=" ui-btn ui-shadow ui-corner-all">'+obj[x].Name+' '+obj[x].Address+'</button>').show();
 	}
+	$("#tab_local").click();
 }
 
 
