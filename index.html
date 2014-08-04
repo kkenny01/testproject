@@ -1,4 +1,4 @@
-<html class="ui-mobile">
+<html class="ui-mobile" ng-app>
 	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="./BLE_files/jquery.mobile.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
@@ -29,18 +29,25 @@
 	<script src="./BLE_files/jquery.min.js"></script>
     <script src="./BLE_files/jquery.mobile.min.js"></script>
     <script src="./BLE_files/jstorage.min.js"></script>
-	<title>BLE Search System Demo</title></head><body class="ui-mobile-viewport ui-overlay-a">
+    <script src="./BLE_files/angular.min.js"></script>
+	<title>BLE Search System Demo</title></head>
+	<body class="ui-mobile-viewport ui-overlay-a">
 
+<div ng-init="texts = [{lang:'tw', title:'低功率藍芽協尋範例',    local:'本機'},
+                       {lang:'en', title:'BLE Search System Demo',local:'Local'}
+                      ]"></div>
+                         
 <div data-role="page" data-url="./index.html" tabindex="0" class="ui-page ui-page-theme-a ui-page-active">
 
 	<div data-role="header" role="banner" class="ui-header ui-bar-inherit">
-		<h1 class="ui-title" role="heading" aria-level="1">範例 BLE Search System Demo</h1>
+		<h1 class="ui-title" role="heading" aria-level="1">{{ (texts | filter:search)[0].title}}</h1>
+		
 	</div><!-- /header -->
 	<div role="main" class="ui-content">
 		<div data-role="tabs" id="tabs">
 			<div data-role="navbar">
     			<ul>
-      				<li><a href="#one" data-ajax="false" id="tab_local">Local</a></li>
+      				<li><a href="#one" data-ajax="false" id="tab_local">{{ (texts | filter:search)[0].local}}</a></li>
       				<li><a href="#two" data-ajax="false" id="tab_site">Site</a></li>
     			</ul>
   			</div>
@@ -81,8 +88,8 @@
 							</select>
 						</div><br>
 						<div class="ui-select">
-							<select name="lang">
-		  						<option value="tw">Traditional Chinese</option> 
+							<select name="lang" ng-model="search.lang" ng-init="search.lang = 'tw'">
+		  						<option value="tw">繁體中文</option> 
 		  						<option value="en">English</option>   
 							</select>
 						</div><br>
