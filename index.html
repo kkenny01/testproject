@@ -294,8 +294,8 @@ function jTable(obj, tname, col_head) {
 
 // Text output.
 var gTestLogData = '';
-var LogMsg = {tw: {ft: "第一次", pnf:"找不到元件", sc:"掃瞄中"}, 
-	en:{ft:"FirstTime", pnf:"Plugin not found", sc:"Scanning..."}};
+var LogMsg = {tw: {ft: "第一次", pnf:"找不到元件", sc:"掃瞄中", ble:"無法設定藍芽", loe:"無法設定位置"}, 
+	en:{ft:"FirstTime", pnf:"Plugin not found", sc:"Scanning...", ble:"Failed to set Bluetooth", loe:"Failed to set Location"}};
 
 // Keeps track of devices found during scan.
 // Used to test a device only once per scan.
@@ -344,12 +344,10 @@ function testScan() {
 			}
 		},
 		function(errorCode)	{
-			alert('FAIL: startScan error: ' + errorCode);
-			
 			window.plugins.webintent.startActivity(    			
 				{action: 'android.settings.BLUETOOTH_SETTINGS'}, 
-    			function() {alert('Intent is sent')}, 
-    			function() {alert('Failed to open Bluetooth Intent') }
+    			function() {}, 
+    			function() {alert(LogMsg[$("#lang").val()]["ble"]); }
 			);
 		}
 	);
@@ -400,11 +398,11 @@ function dig_ok() {
 		else navigator.geolocation.getCurrentPosition(function(pos) {
 			$("#loci").val(pos.coords.latitude+","+pos.coords.longitude);
 		}, function(err){ 
-			alert(err.message);
+			// alert(err.message);
 			window.plugins.webintent.startActivity(
-				{action: android.settings.LOCATION_SOURCE_SETTINGS}, 
+				{action: 'android.settings.LOCATION_SOURCE_SETTINGS'}, 
     			function() {}, 
-    			function() {alert('Failed to open Location Intent');}
+    			function() {alert(LogMsg[$("#lang").val()]["loe"]);}
 			);
 		});
 		$("#tab_site").click();
@@ -426,7 +424,7 @@ function dig_ok() {
 var d_event = {action:"no"};
 
 function post_inphone(name, address) {
-	alert(name+' '+address);
+	//alert(name+' '+address);
 	d_event = {"action":"upload", "name":name, "address":address};
 	$("#prompt").text("Upload");
 	$("#dig_del").show();
