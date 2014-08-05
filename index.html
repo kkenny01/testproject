@@ -345,13 +345,10 @@ function testScan() {
 		},
 		function(errorCode)	{
 			alert('FAIL: startScan error: ' + errorCode);
-			window.plugins.webintent.startActivity(    			{
-        		action: window.plugins.webintent.ACTION_MAIN,
-        		handler: { packageName: 'com.android.settings', className: 'com.android.settings.bluetoothSettings' }
-    			}, 
-    			function() {}, 
-    			function() {alert('Failed to open Bluetooth Intent') }
-			);
+			window.plugins.webintent.sendBroadcast(
+				{ action: 'android.settings.BLUETOOTH_SETTINGS'}, 
+            	function() {alert('Intent is sent') }, 
+            	function() {alert('Failed to open Bluetooth Intent') });
 		}
 	);
 }
