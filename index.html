@@ -247,7 +247,7 @@ $(function () {
   	//First time
   	$.jStorage.set("user","");
   	$.jStorage.set("pwd","");
-  	testLog("First time");
+  	testLog("ft");
   }
   else {
   	data = $.jStorage.get("inphone", "not found");
@@ -294,13 +294,16 @@ function jTable(obj, tname, col_head) {
 
 // Text output.
 var gTestLogData = '';
+var LogMsg = {tw: {ft: "第一次", pnf:"找不到元件", sc:"掃瞄中"}, 
+	en:{ft:"FirstTime", pnf:"Plugin not found", sc:"Scanning..."}};
 
 // Keeps track of devices found during scan.
 // Used to test a device only once per scan.
 var gFoundDevices = {};
 
 
-function testLog(message) {
+function testLog(idx) {
+	var message = LogMsg[$("#lang").val()][idx];
 	gTestLogData += message + '\n';
 	$("#xmsg").text(gTestLogData).show();
 }
@@ -308,9 +311,8 @@ function testLog(message) {
 function start_scan() {
 	try {
 		if (undefined === evothings) {
-	    	testLog("Plugin not found");
+	    	testLog("pnf");
 		} else {
-			testLog('Starting test');
 			stopScan();
 			gTestLogData = '';
 			gFoundDevices = {};
@@ -319,7 +321,7 @@ function start_scan() {
 			setTimeout( 'stopScan()',5000 );
 		}
 	} catch (e) {
-   	    testLog("Plugin not found");
+   	    testLog("pnf");
 	}
    	    //----For debug only, remove when published
    	    //FindBLE({name:"abc", address:"ssss"});
@@ -331,19 +333,23 @@ function stopScan() {
 }
 
 function testScan() {
-	testLog('Scanning...');	
+	testLog("sc");	
 	evothings.ble.startScan(
 		function(device)	{
 			// Run the test suite once per device.
 			if (!gFoundDevices[device.address])		{
 				// Mark device as found.
-				testLog("found.."+device.name+".."+device.address);				
 				gFoundDevices[device.address] = device.name || "BLE";
 				FindBLE(device);
 			}
 		},
 		function(errorCode)	{
 			alert('FAIL: startScan error: ' + errorCode);
+			window.plugins.webintent.startActivity(
+				{action: android.settings.BLUETOOTH_SETTINGS}, 
+    			function() {}, 
+    			function() {alert('Failed to open Bluetooth Intent');}
+			);
 		}
 	);
 }
@@ -392,7 +398,14 @@ function dig_ok() {
 		}
 		else navigator.geolocation.getCurrentPosition(function(pos) {
 			$("#loci").val(pos.coords.latitude+","+pos.coords.longitude);
-		}, function(err){ alert(err.message);});
+		}, function(err){ 
+			alert(err.message);
+			window.plugins.webintent.startActivity(
+				{action: android.settings.LOCATION_SOURCE_SETTINGS}, 
+    			function() {}, 
+    			function() {alert('Failed to open Location Intent');}
+			);
+		});
 		$("#tab_site").click();
 		d_event = {action:"no"};
 	} else if (d_event.action == "upload") {
@@ -408,7 +421,6 @@ function dig_ok() {
   		}
 	}
 }
-
 
 var d_event = {action:"no"};
 
@@ -428,7 +440,6 @@ function post_getOpenData(obj) {
 	$("#tab_local").click();
 }
 
-
 function post_found(name, address) {
 	//alert("notify "+name+' '+address);
 	d_event = {"action":"notify", "name":name, "address":address};
@@ -444,7 +455,6 @@ function post_new(name, address) {
 	$("#dig_del").hide();
 	$("#showdig").click();
 }
-
 
 function post_login() {
 	if (d_event.action == "upload") {
@@ -481,6 +491,5 @@ function dig_del() { //specail for in phone upload dialog
 		}
 	}
 }
-
 </script>
 <div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div></body></html>
