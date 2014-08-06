@@ -140,7 +140,7 @@
 	</div>
 	<div role="main" class="ui-content">
 		<a href="" id="dig_ok" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" onclick="dig_ok();">OK</a>
-		<a href="" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a">Cancel</a>
+		<a href="" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" onclick="post_dig('#tab_local');">Cancel</a>
 		<a href="" id="dig_del" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" onclick="dig_del();">DELETE</a>
 	</div>
 </div>
@@ -280,7 +280,7 @@ function jTable(obj, tname, col_head) {
 	  header.push(r);
 	}
 	for (var i = 0; i < obj.length; i++) {
-	    strx += '<tr id="'+(tname || 'JQMTable')+'_'+i+'"> ';
+	    strx += '<tr id="'+(tname || 'JQMTable')+'_'+i+'" onclick="jTable_row('+JSON.stringify(obj[i])+');"> ';
 		var j = 0;
 		if (col_head) {
 		strx += " <th>"+obj[i][header[0]]+"</th>";
@@ -290,6 +290,10 @@ function jTable(obj, tname, col_head) {
 		    strx += " <td>"+obj[i][header[j]]+"</td>";
 	}	
 	return str1+str2+strx+str3;   
+}
+
+function jTable_row(str) {
+	alert(str);
 }
 
 // Text output.
@@ -388,6 +392,7 @@ function dig_ok() {
 		$("#NBLE"+encode(d_event.address)).remove();
 		$("#phone").append('<button id="BLE'+encode(d_event.address)+'" onclick="post_inphone(\''+d_event.name+'\',\''+d_event.address+'\')" class=" ui-btn ui-shadow ui-corner-all">'+d_event.name+' '+d_event.address+'</button>').show();
 		d_event = {action:"no"};
+		$("#tab_local").click();
 	} else if (d_event.action == "notify") {
 		$("#action").val("findBLE");
 		$("#action").change(); 
@@ -418,6 +423,7 @@ function dig_ok() {
   			$("#action").val("login");	
 			$("#action").change(); 
   		}
+  		$("#tab_local").click();
 	}
 }
 
@@ -489,6 +495,11 @@ function dig_del() { //specail for in phone upload dialog
 			$.jStorage.set("inphone", JSON.stringify( inphone_mem));
 		}
 	}
+	$("#tab_local").click();
+}
+
+function post_dig(sel) {
+	$(sel).click();
 }
 </script>
 <div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div></body></html>
