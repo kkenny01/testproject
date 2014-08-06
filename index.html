@@ -37,7 +37,7 @@
     newf:'新發現', scan:'掃瞄', act:'動作', ps:'請選擇', nu:'新使用者', li:'登入', lo:'登出', al:'連線狀態', 
     sp:'設定個人資訊', gp:'取得個人資訊', np:'更新密碼', fp:'忘記密碼', se:'設定長者資訊', ge:'取得長者資訊', 
     os:'開放搜尋', cs:'關閉搜尋', sb:'設定藍芽資訊', gb:'取得藍芽資訊', gob:'取得開放藍芽', fb:'發現藍芽', 
-    user:'使用者', pwd:'密碼', opwd:'舊密碼', name:'姓名', mp:'手機號碼(不用0開頭)', sm:'備用郵件', gdr:'稱謂', 
+    user:'使用者', pwd:'密碼', opwd:'舊密碼', name:'名字', mp:'手機號碼(不用0開頭)', sm:'備用郵件', gdr:'稱謂', 
     des:'描述', alb:'相簿', add:'地址', pinc:'PIN碼', loc:'位置', rm:'記住使用者', rp:'記住密碼', dont:'不記憶', send:'送出'},
     {lang:'en', title:'BLE Search System Demo', local:'Local', site:'Site', inp:'In Phone', cfh:'Call for help',
     newf:'New found', scan:'Scan', act:'Action', ps:'Please select', nu:'New User', li:'Login', lo:'Logout', al:'Alive',
@@ -191,7 +191,7 @@ $(function () {
 			   else $("#msg").html(jTable(r.BLE, "BLE", true)).show();
 			 else $("#msg").text(r.Error).show(); }},
 		   "getOpenBLE":{"op":[],"sub":function(r) {
-		     if (r.BLE !== undefined) { $("#msg").html(jTable(r.BLE, "BLE")).show(); post_getOpenData(r.BLE);}
+		     if (r.BLE !== undefined) { /*$("#msg").html(jTable(r.BLE, "BLE")).show();*/ post_getOpenData(r.BLE);}
 		     else $("#msg").text(r.Error).show();}},
 		   "findBLE":{"op":["address", "loc"],"sub":function(r) {$("#msg").text(r.Message||r.Error).show();}}
 		  };
@@ -280,7 +280,7 @@ function jTable(obj, tname, col_head) {
 	  header.push(r);
 	}
 	for (var i = 0; i < obj.length; i++) {
-	    strx += '<tr id="'+(tname || 'JQMTable')+'_'+i+'" onclick="jTable_row('+JSON.stringify(obj[i])+');"> ';
+	    strx += '<tr id="'+(tname || 'JQMTable')+'_'+i+'" onclick=\'jTable_row('+JSON.stringify(obj[i])+');\'> ';
 		var j = 0;
 		if (col_head) {
 		strx += " <th>"+obj[i][header[0]]+"</th>";
@@ -292,8 +292,13 @@ function jTable(obj, tname, col_head) {
 	return str1+str2+strx+str3;   
 }
 
-function jTable_row(str) {
-	alert(str);
+function jTable_row(row) {
+	if (row.Name) $("#namei").val(row.Name);
+	if (row.Address) $("#addressi").val(row.Address);
+	if (row.PIN) $("#pini").val(row.PIN);
+	if (row.Gender) $("#genderi").val(row.Gender);
+	if (row.Describe) $("#desi").val(row.Describe);
+	if (row.Album) $("#albumi").val(row.Album);
 }
 
 // Text output.
