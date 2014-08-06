@@ -262,6 +262,7 @@ $(function () {
   	if ($("#useri").val().length > 0) $("#sessionx").val("reme");
   	$("#pwdi").val($.jStorage.get("pwd"));
   	if ($("#pwdi").val().length > 0) $("#sessionx").val("repa");
+  	$("#sessionx").change();
   }
 	
  $("#submit").click();	
