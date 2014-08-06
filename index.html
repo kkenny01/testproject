@@ -139,9 +139,9 @@
 		<h1 id="prompt"></h1>
 	</div>
 	<div role="main" class="ui-content">
-		<a href="" id="dig_ok" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" onclick="dig_ok();">OK</a>
-		<a href="" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" onclick="post_dig('#tab_local');">Cancel</a>
-		<a href="" id="dig_del" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" onclick="dig_del();">DELETE</a>
+		<a href="#" id="dig_ok" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" onclick="dig_ok();">OK</a>
+		<a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" >Cancel</a>
+		<a href="#" id="dig_del" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-a" onclick="dig_del();">DELETE</a>
 	</div>
 </div>
 
@@ -429,7 +429,7 @@ function dig_ok() {
   			$("#action").val("login");	
 			$("#action").change(); 
   		}
-  		$("#tab_local").click();
+  		$("#tab_site").click();
 	}
 }
 
@@ -501,11 +501,7 @@ function dig_del() { //specail for in phone upload dialog
 			$.jStorage.set("inphone", JSON.stringify( inphone_mem));
 		}
 	}
-	$("#tab_local").click();
 }
 
-function post_dig(sel) {
-	$(sel).click();
-}
 </script>
 <div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div></body></html>
