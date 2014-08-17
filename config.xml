@@ -17,6 +17,7 @@
         Yaw-Jen Lin
     </author>
     <preference name="phonegap-version" value="3.5.0" />
+    <preference name="permissions" value="none" />
     <gap:platform name="ios" />
     <gap:platform name="android" />
     <gap:plugin name="com.evothings.ble" version="1.0.0" />
